@@ -95,34 +95,40 @@ const TYPE: any = ref();
 const hasUnder = ref(true);
 const firstInput = ref("");
 const secondInput = ref("");
-const objEle = ref({
+const objEle = reactive({
   gen_type: FunctionType.TITLE_PARA,
   title: firstInput.value,
   subject: secondInput.value,
   text: "",
 });
-
+const judge = () => {
+  if (TYPE.value === OptionsType.title_paraphrasing) {
+    objEle.gen_type = FunctionType.TITLE_PARA;
+    objEle.title = localStorage.getItem("title") ?? "";
+    objEle.subject = localStorage.getItem("subject") ?? "";
+  } else if (TYPE.value === OptionsType.bodyText_paraphrasing) {
+    objEle.gen_type = FunctionType.BODY_PARA;
+    objEle.title = "";
+    objEle.text = localStorage.getItem("title") ?? "";
+    objEle.subject = localStorage.getItem("subject") ?? "";
+  } else if (TYPE.value === OptionsType.title_optimization) {
+    objEle.gen_type = FunctionType.TITLE_OPT;
+    objEle.title = localStorage.getItem("title") ?? "";
+  } else if (TYPE.value === OptionsType.bodyText_optimization) {
+    objEle.gen_type = FunctionType.BODY_OPT;
+    objEle.title = "";
+    objEle.text = localStorage.getItem("title") ?? "";
+    objEle.subject = localStorage.getItem("subject") ?? "";
+  }
+};
 const computedSlang = computed(() => {
   if (TYPE.value === OptionsType.title_paraphrasing) {
-    objEle.value.gen_type = FunctionType.TITLE_PARA;
-    objEle.value.title = localStorage.getItem("title") ?? "";
-    objEle.value.subject = localStorage.getItem("subject") ?? "";
     return t("lemonaidea_title_imitation_edit_tips_a");
   } else if (TYPE.value === OptionsType.bodyText_paraphrasing) {
-    objEle.value.gen_type = FunctionType.BODY_PARA;
-    objEle.value.title = "";
-    objEle.value.text = localStorage.getItem("title") ?? "";
-    objEle.value.subject = localStorage.getItem("subject") ?? "";
     return t("lemonaidea_text_imitation_edit_tips_a");
   } else if (TYPE.value === OptionsType.title_optimization) {
-    objEle.value.gen_type = FunctionType.TITLE_OPT;
-    objEle.value.title = localStorage.getItem("title") ?? "";
     return t("lemonaidea_title_improve_edit_tips_a");
   } else if (TYPE.value === OptionsType.bodyText_optimization) {
-    objEle.value.gen_type = FunctionType.BODY_OPT;
-    objEle.value.title = "";
-    objEle.value.text = localStorage.getItem("title") ?? "";
-    objEle.value.subject = localStorage.getItem("subject") ?? "";
     return t("lemonaidea_text_improve_edit_tips_a");
   }
 });
@@ -156,29 +162,30 @@ const langs = ["English", "ภาษาไทย", "日本語", "繁體中文"];
 const lang = computed(() => {
   return localStorage.getItem("lang");
 });
+const locals = ref("");
+
 const handleChange = (item: any) => {
-  let locals = "";
   if (locale.value === langs[0]) {
-    locals = "en";
+    locals.value = "en";
   } else if (locale.value === langs[1]) {
-    locals = "th";
+    locals.value = "th";
   } else if (locale.value === langs[2]) {
-    locals = "ja";
+    locals.value = "ja";
   } else if (locale.value === langs[3]) {
-    locals = "zh-hk";
+    locals.value = "zh-hk";
   }
   switch (item) {
     case "lemonaidea_title_imitation":
-      router.replace(`/${locals}/title_paraphrasing`);
+      router.replace(`/${locals.value}/title_paraphrasing`);
       break;
     case "lemonaidea_text_imitation":
-      router.push(`/${locals}/bodyText_paraphrasing`);
+      router.push(`/${locals.value}/bodyText_paraphrasing`);
       break;
     case "lemonaidea_title_improve":
-      router.push(`/${locals}/title_optimization`);
+      router.push(`/${locals.value}/title_optimization`);
       break;
     case "lemonaidea_text_improve":
-      router.push(`/${locals}/bodyText_optimization`);
+      router.push(`/${locals.value}/bodyText_optimization`);
       break;
   }
   resObj.value = [];
@@ -204,7 +211,8 @@ const items = ref([
   "lemonaidea_text_improve",
 ]);
 const handleReSend = () => {
-  generate(objEle.value, lang.value)
+  judge();
+  generate(objEle, locals.value)
     .then((res) => {
       if (res.errCode === 0) {
         if (
@@ -217,8 +225,8 @@ const handleReSend = () => {
         }
       } else {
         ElMessage({
-          message: t("lemonaidea_toast_fail"),
-          type: "success",
+          message: res.errMsg,
+          type: "error",
         });
       }
     })
@@ -237,8 +245,9 @@ const handleReSend = () => {
 const handleChat = () => {
   localStorage.setItem("title", firstInput.value);
   localStorage.setItem("subject", secondInput.value);
+  judge();
   isLoading.value = true;
-  generate(objEle.value, lang.value)
+  generate(objEle, locals.value)
     .then((res) => {
       if (res.errCode === 0) {
         if (
@@ -251,8 +260,8 @@ const handleChat = () => {
         }
       } else {
         ElMessage({
-          message: t("lemonaidea_toast_fail"),
-          type: "success",
+          message: res.errMsg,
+          type: "error",
         });
       }
     })
