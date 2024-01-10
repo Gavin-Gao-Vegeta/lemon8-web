@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 defineProps<{ msg: string }>();
-const visits = useVisits();
+// const visits = useVisits();
 const router = useRouter();
 const langs = ["English", "ภาษาไทย", "日本語", "繁體中文"];
 const { locale, t, availableLocales } = useI18n();

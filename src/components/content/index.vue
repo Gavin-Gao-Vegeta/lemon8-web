@@ -68,7 +68,12 @@
         </button>
       </div>
     </div>
-    <Promote v-if="resObj.length" :source="resObj" @change="handleReSend" :loading="isLoading" />
+    <Promote
+      v-if="resObj.length"
+      :source="resObj"
+      @change="handleReSend"
+      :loading="isLoading"
+    />
   </div>
 </template>
 
@@ -100,24 +105,24 @@ const objEle = ref({
 const computedSlang = computed(() => {
   if (TYPE.value === OptionsType.title_paraphrasing) {
     objEle.value.gen_type = FunctionType.TITLE_PARA;
-    objEle.value.title = localStorage.getItem('title')??'';
-    objEle.value.subject = localStorage.getItem('subject')??'';
+    objEle.value.title = localStorage.getItem("title") ?? "";
+    objEle.value.subject = localStorage.getItem("subject") ?? "";
     return t("lemonaidea_title_imitation_edit_tips_a");
   } else if (TYPE.value === OptionsType.bodyText_paraphrasing) {
     objEle.value.gen_type = FunctionType.BODY_PARA;
     objEle.value.title = "";
-    objEle.value.text = localStorage.getItem('title')??'';
-    objEle.value.subject = localStorage.getItem('subject')??'';
+    objEle.value.text = localStorage.getItem("title") ?? "";
+    objEle.value.subject = localStorage.getItem("subject") ?? "";
     return t("lemonaidea_text_imitation_edit_tips_a");
   } else if (TYPE.value === OptionsType.title_optimization) {
     objEle.value.gen_type = FunctionType.TITLE_OPT;
-    objEle.value.title = localStorage.getItem('title')??'';
+    objEle.value.title = localStorage.getItem("title") ?? "";
     return t("lemonaidea_title_improve_edit_tips_a");
   } else if (TYPE.value === OptionsType.bodyText_optimization) {
     objEle.value.gen_type = FunctionType.BODY_OPT;
     objEle.value.title = "";
-    objEle.value.text = localStorage.getItem('title')??'';
-    objEle.value.subject = localStorage.getItem('subject')??'';
+    objEle.value.text = localStorage.getItem("title") ?? "";
+    objEle.value.subject = localStorage.getItem("subject") ?? "";
     return t("lemonaidea_text_improve_edit_tips_a");
   }
 });
@@ -147,22 +152,33 @@ watch(
   },
   { immediate: true }
 );
+const langs = ["English", "ภาษาไทย", "日本語", "繁體中文"];
 const lang = computed(() => {
   return localStorage.getItem("lang");
 });
 const handleChange = (item: any) => {
+  let locals = "";
+  if (locale.value === langs[0]) {
+    locals = "en";
+  } else if (locale.value === langs[1]) {
+    locals = "th";
+  } else if (locale.value === langs[2]) {
+    locals = "ja";
+  } else if (locale.value === langs[3]) {
+    locals = "zh-hk";
+  }
   switch (item) {
     case "lemonaidea_title_imitation":
-      router.replace(`/${lang.value}/title_paraphrasing`);
+      router.replace(`/${locals}/title_paraphrasing`);
       break;
     case "lemonaidea_text_imitation":
-      router.push(`/${lang.value}/bodyText_paraphrasing`);
+      router.push(`/${locals}/bodyText_paraphrasing`);
       break;
     case "lemonaidea_title_improve":
-      router.push(`/${lang.value}/title_optimization`);
+      router.push(`/${locals}/title_optimization`);
       break;
     case "lemonaidea_text_improve":
-      router.push(`/${lang.value}/bodyText_optimization`);
+      router.push(`/${locals}/bodyText_optimization`);
       break;
   }
   resObj.value = [];

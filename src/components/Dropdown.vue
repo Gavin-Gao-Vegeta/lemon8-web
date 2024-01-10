@@ -19,7 +19,7 @@ const handleChangeLocal = (lang: any) => {
   }
   locale.value = lang;
   visiable.value = false;
-  localStorage.setItem("lang", locals);
+  localStorage.setItem("lang", lang);
 };
 
 const { availableLocales, locale } = useI18n();

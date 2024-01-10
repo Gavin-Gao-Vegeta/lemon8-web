@@ -17,12 +17,42 @@ const languages = Object.entries(yamls).map(([key, value]) => {
 })
 
 const messages = defu({}, ...languages)
+const languagesArray = ref([
+	{ type: 'ja', name: '日本語' },
+	{ type: 'en', name: 'English' },
+	{ type: 'th', name: 'ภาษาไทย' },
+	{ type: 'zh-cn', name: '繁体中文' },
+]);
+// const storageLocale: any = ref(useStorage('locale', 'zh-hk'))
+let locale: any;
 if (!localStorage.getItem('lang')) {
-	localStorage.setItem('lang', 'en');
+	let initLang = '';
+	let userLang = window.navigator.language;
+	if (userLang.indexOf('zh') !== -1) {
+		initLang = 'zh-cn';
+		locale = '繁體中文'
+	} else if (userLang.indexOf('ja') !== -1) {
+		initLang = 'ja';
+		locale = '日本語'
+	} else if (userLang.indexOf('th') !== -1) {
+		initLang = 'th';
+		locale = 'ภาษาไทย'
+	} else if (userLang.indexOf('en') !== -1) {
+		initLang = 'en';
+		locale = 'English'
+	} else {
+		initLang = 'en';
+	}
+	// setLang(initLang);
+	localStorage.setItem('lang', locale);
+	locale = locale;
+	// language.value = languagesArray.value.find((item) => item.type === initLang)?.name;
 }
+// if (!localStorage.getItem('lang')) {
+// 	localStorage.setItem('lang', 'en');
+// }
 // localStorage 中的 locale，第二个参数为默认值
 // https://vueuse.org/core/useStorage/#usestorage
-const storageLocale = useStorage('locale', 'zh-hk')
 console.log(languages)
 export const i18n = createI18n({
 	messages,
@@ -33,6 +63,6 @@ export const i18n = createI18n({
 
 // 同步本地 localStorage 和 i18n
 // https://vueuse.org/shared/syncRef/#syncref
-syncRef(storageLocale, i18n.global.locale)
-
+// syncRef(storageLocale, i18n.global.locale)
+i18n.global.locale.value = locale || localStorage.getItem('lang') || 'English';
 export default i18n
