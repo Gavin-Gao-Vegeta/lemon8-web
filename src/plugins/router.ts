@@ -1,6 +1,7 @@
 import { createGetRoutes, setupLayouts } from 'virtual:meta-layouts'
 import { createRouter, createWebHistory } from 'vue-router'
 import { routes as fileRoutes } from 'vue-router/auto/routes'
+import routes from './routerslist'
 
 declare module 'vue-router' {
 	// 在这里定义你的 meta 类型
@@ -18,7 +19,7 @@ fileRoutes.flat(Infinity).forEach((route) => {
 
 export const router = createRouter({
 	history: createWebHistory(),
-	routes: setupLayouts(fileRoutes),
+	routes: routes,
 })
 
 export const getRoutes = createGetRoutes(router)

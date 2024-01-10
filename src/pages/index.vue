@@ -1,21 +1,8 @@
 <template>
-	<div>
-		<div class="grid grid-cols-3">
-			<a href="https://github.com/dishait/tov-template" target="_blank">
-				<img :src="safeResolve('/logo.png')" class="logo" alt="Vite logo" />
-			</a>
-			<a href="https://vitejs.dev" target="_blank">
-				<img :src="safeResolve('/vite.svg')" class="logo" alt="Vite logo" />
-			</a>
-			<a href="https://vuejs.org/" target="_blank">
-				<img :src="safeResolve('/vue.svg')" class="logo vue" alt="Vue logo" />
-			</a>
-		</div>
-		<HelloWorld msg="Tov + Vite + Vue" />
-	</div>
+	<div></div>
 </template>
 
-<style>
+<style scoped>
 a {
 	color: rgba(37, 99, 235);
 }

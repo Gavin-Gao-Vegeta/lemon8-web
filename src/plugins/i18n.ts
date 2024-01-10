@@ -17,11 +17,13 @@ const languages = Object.entries(yamls).map(([key, value]) => {
 })
 
 const messages = defu({}, ...languages)
-
+if (!localStorage.getItem('lang')) {
+	localStorage.setItem('lang', 'en');
+}
 // localStorage 中的 locale，第二个参数为默认值
 // https://vueuse.org/core/useStorage/#usestorage
-const storageLocale = useStorage('locale', '简体中文')
-
+const storageLocale = useStorage('locale', 'zh-hk')
+console.log(languages)
 export const i18n = createI18n({
 	messages,
 	legacy: false,
