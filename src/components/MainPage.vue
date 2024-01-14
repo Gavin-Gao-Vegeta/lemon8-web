@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+const router = useRouter();
 defineProps<{ msg: string }>();
 // const visits = useVisits();
-const router = useRouter();
 const langs = ["English", "ภาษาไทย", "日本語", "繁體中文"];
 const { locale, t, availableLocales } = useI18n();
 const handleJumpToFunc = (index: string) => {
@@ -108,7 +108,7 @@ const handleJumpToFunc = (index: string) => {
     letter-spacing: 0em;
     text-align: left;
     height: 64px;
-
+    margin-bottom: 48px;
     .title-p {
       font-family: Poppins;
       font-size: 68px;

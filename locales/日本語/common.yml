@@ -4,7 +4,7 @@
 lemonaidea_slogan: 'Become Lemon8 Pro Now'
 lemonaidea_subtitle: ' #1 Pick For Lemon8 Creator'
 lemonaidea_login_google: 'Googleでサインイン'
- #lemonaidea_feedback: 'フィードバック'
+lemonaidea_feedback: 'フィードバック'
 
 
 #homepage
@@ -52,7 +52,6 @@ lemonaidea_limited_free_desc: '機能は一時的に無料で公開されてお�
 lemonaidea_limited_free_btn: 'わかった'
 
  # feedback
- #lemonaidea_feedback: 'フィードバック'
 lemonaidea_feedback_confirm: '確認する'
 
  # all

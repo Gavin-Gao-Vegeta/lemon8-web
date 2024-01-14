@@ -1,28 +1,34 @@
 <template>
   <div class="header">
-    <div>
+    <div @click="handleGoHome">
       <img class="logo" src="@/assets/lemon-8.png" alt="" />
       <img class="beta" src="@/assets/beta.png" alt="" />
     </div>
     <div class="header-right">
-      <div class="icon-box">
+      <div class="icon-box" @click="showTips = true">
         <img class="small-icon" src="@/assets/flash.png" alt="" />
-        <span>Limited-time free</span>
+        <span>{{ t("lemonaidea_limited_free") }}</span>
       </div>
-      <div class="icon-box">
+      <div class="icon-box" @click="handleGoToIns">
         <img class="small-icon" src="@/assets/twitter.png" alt="" />
-        <span>Twitter</span>
+        <span>Instagram</span>
       </div>
       <div class="icon-box" @click="showFeedBack = true">
         <img class="small-icon" src="@/assets/mail.png" alt="" />
-        <span>Feedback</span>
+        <span>{{ t("lemonaidea_feedback") }}</span>
       </div>
       <li class="hidden !block">
         <Dropdown />
       </li>
     </div>
   </div>
-  <el-dialog v-model="showFeedBack" :title="t('lemonaidea_feedback')" width="30%" center>
+  <el-dialog
+    v-model="showFeedBack"
+    :title="t('lemonaidea_feedback')"
+    width="30%"
+    style="height: 300px"
+    center
+  >
     <el-input
       v-model="feedback"
       :autosize="{ minRows: 4, maxRows: 4 }"
@@ -33,7 +39,25 @@
       <span class="dialog-footer">
         <!-- <el-button @click="showFeedBack = false">Cancel</el-button> -->
         <el-button class="fb-but" type="primary" @click="handleSendFB">
-          Confirm
+          {{ t("lemonaidea_feedback_confirm") }}
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
+  <el-dialog
+    v-model="showTips"
+    class="tips-dialog"
+    :title="t('lemonaidea_limited_free_title')"
+    width="30%"
+    style="height: 240px"
+    center
+  >
+    <p>{{ t("lemonaidea_limited_free_desc") }}</p>
+    <template #footer>
+      <span class="dialog-footer">
+        <!-- <el-button @click="showFeedBack = false">Cancel</el-button> -->
+        <el-button class="fb-but" type="primary" @click="showTips = false">
+          {{ t("lemonaidea_limited_free_btn") }}
         </el-button>
       </span>
     </template>
@@ -48,15 +72,18 @@
 <script lang="ts" setup>
 import { sendFB } from "@/api/index";
 import { ElMessage } from "element-plus";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const { t } = useI18n();
 const showFeedBack = ref(false);
+const showTips = ref(false);
 const feedback = ref("");
 const handleSendFB = () => {
   sendFB({ feedback: feedback.value })
     .then((res) => {
       if (res.errCode === 0) {
         ElMessage({
-          message: 'ok',
+          message: "ok",
           type: "success",
         });
       }
@@ -64,6 +91,12 @@ const handleSendFB = () => {
     .finally(() => {});
   showFeedBack.value = false;
 };
+const handleGoToIns = () => {
+  window.open("https://www.instagram.com/lemonaidea");
+};
+const handleGoHome = ()=>{
+  router.push('/')
+}
 </script>
 
 <style lang="scss" scoped>
@@ -140,11 +173,27 @@ const handleSendFB = () => {
   background: #1e232d;
   border: none;
 }
+.tips-dialog {
+  width: 590px;
+  height: 240px;
+  flex-shrink: 0;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.05);
+  p {
+    color: #1d2331;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+}
 </style>
 <style lang="scss">
 .el-dialog--center {
   width: 590px;
-  height: 300px;
   flex-shrink: 0;
   border-radius: 24px;
   background: #fff;

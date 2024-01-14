@@ -162,18 +162,31 @@ const langs = ["English", "ภาษาไทย", "日本語", "繁體中文"];
 const lang = computed(() => {
   return localStorage.getItem("lang");
 });
-const locals = ref("");
+const locals = computed(() => {
+  let localLan = localStorage.getItem("lang");
+  if (localLan === langs[0]) {
+    return "en";
+  } else if (localLan === langs[1]) {
+    return "th";
+  } else if (localLan === langs[2]) {
+    return "ja";
+  } else if (localLan === langs[3]) {
+    return "zh-hk";
+  }
+});
 
 const handleChange = (item: any) => {
-  if (locale.value === langs[0]) {
-    locals.value = "en";
-  } else if (locale.value === langs[1]) {
-    locals.value = "th";
-  } else if (locale.value === langs[2]) {
-    locals.value = "ja";
-  } else if (locale.value === langs[3]) {
-    locals.value = "zh-hk";
-  }
+  firstInput.value = "";
+  secondInput.value = "";
+  // if (locale.value === langs[0]) {
+  //   locals.value = "en";
+  // } else if (locale.value === langs[1]) {
+  //   locals.value = "th";
+  // } else if (locale.value === langs[2]) {
+  //   locals.value = "ja";
+  // } else if (locale.value === langs[3]) {
+  //   locals.value = "zh-hk";
+  // }
   switch (item) {
     case "lemonaidea_title_imitation":
       router.replace(`/${locals.value}/title_paraphrasing`);
@@ -231,8 +244,8 @@ const handleReSend = () => {
       }
     })
     .finally(() => {
-      firstInput.value = "";
-      secondInput.value = "";
+      // firstInput.value = "";
+      // secondInput.value = "";
       isLoading.value = false;
     })
     .catch((err) =>
@@ -266,8 +279,8 @@ const handleChat = () => {
       }
     })
     .finally(() => {
-      firstInput.value = "";
-      secondInput.value = "";
+      // firstInput.value = "";
+      // secondInput.value = "";
       isLoading.value = false;
     })
     .catch((err) =>

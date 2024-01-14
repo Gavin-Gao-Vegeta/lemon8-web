@@ -4,7 +4,6 @@
 lemonaidea_slogan: 'Become Lemon8 Pro Now'
 lemonaidea_subtitle: ' #1 Pick For Lemon8 Creator'
 lemonaidea_login_google: '使用 Google 登入'
-# lemonaidea_feedback: '回饋'
 
 #homepage
 lemonaidea_title_imitation: '標題生成'
@@ -53,7 +52,7 @@ lemonaidea_limited_free_desc: '功能暫時免費開放，歡迎大家提供回�
 lemonaidea_limited_free_btn: '了解'
 
 #feedback
-# lemonaidea_feedback: '回饋'
+lemonaidea_feedback: '回饋'
 lemonaidea_feedback_confirm: '確認'
 
  # all

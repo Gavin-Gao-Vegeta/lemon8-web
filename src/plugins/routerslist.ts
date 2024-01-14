@@ -7,7 +7,7 @@ export const routes = [
 				path: '/',
 				component: () => import('@/components/MainPage.vue'),
 				meta: {
-					title: 'tabbar.home',
+					title: 'lemonaidea',
 					keepAlive: true,
 				},
 			},

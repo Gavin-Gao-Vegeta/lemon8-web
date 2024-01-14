@@ -5,7 +5,7 @@
       <span>{{ t("lemonaidea_title_imitation_result") }}</span>
     </div>
     <div class="result-list" v-for="(item, index) in source" :key="index">
-      <span :class="[!isShowAll ? 'result-span' : '', 'basic-result']">{{ item }}</span>
+      <div :class="[!isShowAll ? 'result-span' : '', 'basic-result']" v-html="item"></div>
       <a
         class="show-all"
         @click="handleShowMore(index)"
